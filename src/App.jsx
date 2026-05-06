@@ -33,30 +33,49 @@ function App() {
   }, [Search, TaskList]);
 
   //questa funzione gestisce due input diversi
-    const changeInputHandler = (event) => {
-      const target = event.target; // prende evento scatena dall'input 
+  const changeInputHandler = (event) => {
+    const target = event.target; // prende evento scatena dall'input 
     const targetGenre = event.genre;
     const targetName = target.title;
-  
-      if (targetName === 'Task') {
-        setTask(target.value); // aggiorna il valore di Task con quello dell'input
-      } else if (targetGenre === 'Search') {
-        setSearch(target.value); // aggiorna il valore di Search con quello dell'input
-      }
+
+    if (targetName === 'Task') {
+      setTask(target.value); // aggiorna il valore di Task con quello dell'input
+    } else if (targetGenre === 'Search') {
+      setSearch(target.value); // aggiorna il valore di Search con quello dell'input
+    }
+  };
+//addTaskHandler gestisce l'aggiunta di un nuovo task alla lista dei task. 
+// Quando viene chiamata, previene il comportamento di default del form.
+
+  const addTaskHandler = (event) => {
+    event.preventDefault(); // previene il comportamento di default del form
+    const newTaskList = [...TaskList, Task]; // crea una nuova lista con i task esistenti più il nuovo task
+    setTaskList(newTaskList); // aggiorna la lista dei task con la nuova lista
+    setTask(''); // resetta il valore di Task a una stringa vuota
   };
 
+    return <>
 
+{/* Form inserimento task */}
+      <form onSubmit={addTaskHandler}>
+      <h1>My Movie List</h1>
+     <input type="text" value={Task} onChange={changeInputHandler} name='Task'/>
+      <button type="submit">Aggiungi Task</button>
+      </form>
 
-  return <>
-    <h1>My Movie List</h1>
+      {/* Form ricerca task */}
+      <form>
+      <h1>Search Movie</h1>
+        <input type="text" value={Search} onChange={changeInputHandler} name='Search' />
+      </form>
 
-    {/* Visualizzazione task */}
-    <ul> 
-      {TaskListFiltered.map((task, index) => {
-        return <li key={index}>{task.title} - {task.genre}</li>
-      })};
-    </ul>
-  </>
-}
+      {/* Visualizzazione task */}
+      <ul>
+        {TaskListFiltered.map((task, index) => {
+          return <li key={index}>{task.title} - {task.genre}</li>
+        })};
+      </ul>
+    </>
+  }
 
-export default App;
+  export default App;
