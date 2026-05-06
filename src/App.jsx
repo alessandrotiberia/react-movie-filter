@@ -35,8 +35,8 @@ function App() {
   //questa funzione gestisce due input diversi
   const changeInputHandler = (event) => {
     const target = event.target; // prende evento scatena dall'input 
-    const targetGenre = event.genre;
-    const targetName = target.title;
+    const targetGenre = event.type;
+    const targetName = target.name;
 
     if (targetName === 'Task') {
       setTask(target.value); // aggiorna il valore di Task con quello dell'input
@@ -49,7 +49,13 @@ function App() {
 
   const addTaskHandler = (event) => {
     event.preventDefault(); // previene il comportamento di default del form
-    const newTaskList = [...TaskList, Task]; // crea una nuova lista con i task esistenti più il nuovo task
+    // Creo un nuovo oggetto per mantenere la coerenza con la lista iniziale.
+    // Assegno un genere predefinito dato che al momento non abbiamo un input per il genere.
+    const nuovo_film = {
+      title: Task,
+      genre: 'Da definire'
+    };
+    const newTaskList = [...TaskList, nuovo_film]; // crea una nuova lista con i task esistenti più il nuovo task
     setTaskList(newTaskList); // aggiorna la lista dei task con la nuova lista
     setTask(''); // resetta il valore di Task a una stringa vuota
   };
